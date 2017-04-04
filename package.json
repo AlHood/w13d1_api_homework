@@ -4,7 +4,8 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha client/src/models/specs",
-    "start": "nodemon server"
+    "start": "nodemon server",
+    "webpack": "webpack -w --config ./client/webpack.config.js"
   },
   "author": "",
   "license": "ISC",

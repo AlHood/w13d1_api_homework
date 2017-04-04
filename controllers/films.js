@@ -5,8 +5,11 @@ var Review = require('../client/src/models/review');
 
 var express = require('express');
 var filmRouter = express.Router();
+var bodyParser = require('body-parser');
 
-var films = [{name: 'Star Trek'}, {name: 'Star Wars: The Force Awakens'}, {name: 'That youtube with the dog that talks'}]
+filmRouter.use(bodyParser.json());
+filmRouter.use(bodyParser.urlencoded({extended: true}));
+// var films = [{name: 'Star Trek'}, {name: 'Star Wars: The Force Awakens'}, {name: 'That youtube with the dog that talks'}]
 
 filmRouter.get('/:id', function(req, res){
   res.json({data: films[req.params.id]});
@@ -15,11 +18,16 @@ filmRouter.get('/:id', function(req, res){
 
 
 filmRouter.put('/:id', function(req, res){
-  films[req.params.id] = req.body.film;
+  var newFilm = new Film({
+    title: req.body.name,
+    actors: req.body.actors,
+    genre: req.body.genre
+  })
+  films[req.params.id] = newFilm;
   res.json({data: films});
 });
 
-filmRouter.delete('/:id', function(req,res) {
+filmRouter.delete('/:id', function(req, res) {
   films.splice(req.params.id, 1);
   res.json({data: films});
 
@@ -30,7 +38,12 @@ filmRouter.get('/', function(req,res) {
 });
 
 filmRouter.post('/', function(req, res) {
-  films.push(req.body.film);
+  var newFilm = new Film({
+    title: req.body.name,
+    actors: req.body.actors,
+    genre: req.body.genre
+  })
+  films.push(newFilm);
   res.json({data: films});
 });
 
